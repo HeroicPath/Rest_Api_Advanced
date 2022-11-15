@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/RestApiAdvancedDb
+    username: postgres
+    password: Gates_222
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        query:
+          in_clause_parameter_padding: true
+    show-sql: true
+server:
+  error:
+    include-stacktrace: never
