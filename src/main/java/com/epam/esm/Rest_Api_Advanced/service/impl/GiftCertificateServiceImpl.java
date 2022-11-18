@@ -42,8 +42,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public Page<GiftCertificate> getByName(String name) {
-        return giftCertificateRepository.findFirstByNameLike(name);
+    public GiftCertificate getByName(String name) {
+        return giftCertificateRepository.findFirstByNameLike(name)
+                .orElseThrow(() ->
+                    new LocalException("no gift certificate found by this name", HttpStatus.NOT_FOUND));
     }
 
     @Override

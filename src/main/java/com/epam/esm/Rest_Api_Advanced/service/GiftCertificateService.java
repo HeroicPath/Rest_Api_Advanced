@@ -32,7 +32,7 @@ public interface GiftCertificateService {
      * @param name Name field of the requested entity
      * @return the requested entity
      */
-    Page<GiftCertificate> getByName(String name);
+    GiftCertificate getByName(String name);
 
     /**
      * returns the GiftCertificate by description

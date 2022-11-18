@@ -2,13 +2,15 @@ package com.epam.esm.Rest_Api_Advanced.controller;
 
 import com.epam.esm.Rest_Api_Advanced.dto.TagDto;
 import com.epam.esm.Rest_Api_Advanced.exception.LocalException;
+import com.epam.esm.Rest_Api_Advanced.hateoas.assembler.TagAssembler;
 import com.epam.esm.Rest_Api_Advanced.mapper.GiftCertificateMapper;
 import com.epam.esm.Rest_Api_Advanced.mapper.TagMapper;
 import com.epam.esm.Rest_Api_Advanced.model.Tag;
 import com.epam.esm.Rest_Api_Advanced.service.TagService;
 import lombok.AllArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +32,12 @@ public class TagController {
     private final TagService tagService;
     private final TagMapper tagMapper;
     private final GiftCertificateMapper giftCertificateMapper;
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final TagAssembler tagAssembler;
+    private final PagedResourcesAssembler<Tag> pagedResourcesAssembler;
 
     /**
      * <p>
-     * Returns the Page representation of Tags
+     * Returns the PagedModel representation of Tags
      * </p>
      *
      * @param page number of the page
@@ -42,16 +45,16 @@ public class TagController {
      * @return The Page representation of the requested Tags
      */
     @GetMapping(params = {"page", "size"})
-    public Page<TagDto> getAll(@RequestParam int page,
-                               @RequestParam int size,
-                               UriComponentsBuilder uriComponentsBuilder,
-                               HttpServletResponse httpServletResponse) {
-        Page<TagDto> retrievedTags = tagService.getAll(page, size).map(tagMapper::toDto);
+    public PagedModel<TagDto> getAll(@RequestParam int page,
+                                     @RequestParam int size,
+                                     UriComponentsBuilder uriComponentsBuilder,
+                                     HttpServletResponse httpServletResponse) {
+        Page<Tag> retrievedTags = tagService.getAll(page, size);
         if (page > retrievedTags.getTotalPages()) {
             throw new LocalException("this page doesn't exist", HttpStatus.BAD_REQUEST);
         }
 
-        return retrievedTags;
+        return pagedResourcesAssembler.toModel(retrievedTags, tagAssembler);
     }
 
     /**

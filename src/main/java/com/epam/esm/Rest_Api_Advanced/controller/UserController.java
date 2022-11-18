@@ -20,31 +20,6 @@ public class UserController {
 
     private final OrderMapper orderMapper;
     private final UserService userService;
-    private final ApplicationEventPublisher applicationEventPublisher;
-
-    /**
-     * <p>
-     * Returns the Page representation of Orders of the specified User
-     * </p>
-     *
-     * @param id id of the specified User
-     * @param page number of the page
-     * @param size size of the page
-     * @return The Page representation of the requested Orders
-     */
-    @GetMapping(value = "/{id}", params = {"page", "size"})
-    public Page<OrderDto> getUserOrders(@PathVariable Long id,
-                                        @RequestParam int page,
-                                        @RequestParam int size,
-                                        UriComponentsBuilder uriComponentsBuilder,
-                                        HttpServletResponse httpServletResponse){
-        Page<OrderDto> ordersById = userService.getOrdersById(id, page, size).map(orderMapper::toDto);
-        if (page > ordersById.getTotalPages()) {
-            throw new LocalException("this page doesn't exist", HttpStatus.BAD_REQUEST);
-        }
-
-        return ordersById;
-    }
 
     /**
      * <p>

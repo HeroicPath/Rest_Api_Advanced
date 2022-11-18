@@ -37,7 +37,7 @@ public class GiftCertificateController {
 
     /**
      * <p>
-     * Returns the Page representation of Gift Certificates
+     * Returns the PagedModel representation of Gift Certificates
      * </p>
      *
      * @param page number of the page
@@ -77,12 +77,8 @@ public class GiftCertificateController {
      * @return The representation of the requested Gift Certificate
      */
     @GetMapping(value = "/name/{name}", produces = "application/json")
-    public PagedModel<GiftCertificateDto> getByName(@PathVariable String name) {
-        Page<GiftCertificate> byName = giftCertificateService.getByName(name);
-        if (byName.getTotalPages() == 0) {
-            throw new LocalException("no gift certificate found with this name", HttpStatus.BAD_REQUEST);
-        }
-        return pagedResourcesAssembler.toModel(byName, giftCertificateAssembler);
+    public GiftCertificateDto getByName(@PathVariable String name) {
+        return convertToDto(giftCertificateService.getByName(name));
     }
 
     /**
@@ -100,7 +96,7 @@ public class GiftCertificateController {
 
     /**
      * <p>
-     * Returns the Gift Certificate by the name of the tag that is connected to it
+     * Returns the Gift Certificates by the name of the tag/s that is/are connected to it
      * </p>
      *
      * @param tagName The name of the tag that is connected to the Gift Certificate that needs to be received

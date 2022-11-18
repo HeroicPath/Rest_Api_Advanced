@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public interface GiftCertificateRepository extends JpaRepository<GiftCertificate, Long>, JpaSpecificationExecutor<GiftCertificate> {
 
-    Page<GiftCertificate> findFirstByNameLike(String name);
+    Optional<GiftCertificate> findFirstByNameLike(String name);
 
     Optional<GiftCertificate> findFirstByDescriptionLike(String description);
 
