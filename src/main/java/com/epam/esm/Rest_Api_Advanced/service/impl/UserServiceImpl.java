@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +28,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<Order> getOrdersById(Long id, int page, int size) {
-        User user = userRepository.findById(id).orElseThrow(() ->
-                new LocalException("no user found by this id", HttpStatus.NOT_FOUND));
+        Pageable pageable = PageRequest.of(page, size, Sort.by("cost"));
 
-        Pageable pageable = PageRequest.of(page, size);
+        Page<Order> byUser_id = orderRepository.findByUser_Id(id, pageable);
+        if (byUser_id.isEmpty()) {
+            throw new LocalException("no user found by this id", HttpStatus.NOT_FOUND);
+        }
 
-        return orderRepository.findAll(pageable);
+        return byUser_id;
     }
 
     @Override

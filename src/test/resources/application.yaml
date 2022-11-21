@@ -1,16 +1,18 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/RestApiAdvancedDb
-    username: postgres
-    password: Gates_222
+    url: jdbc:h2://mem:db;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         query:
           in_clause_parameter_padding: true
     show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
 server:
   error:
     include-stacktrace: never
+  port: 8081

@@ -31,7 +31,6 @@ public class GiftCertificateController {
     private final GiftCertificateService giftCertificateService;
     private final GiftCertificateMapper giftCertificateMapper;
     private final TagMapper tagMapper;
-    private final ApplicationEventPublisher applicationEventPublisher;
     private final GiftCertificateAssembler giftCertificateAssembler;
     private final PagedResourcesAssembler<GiftCertificate> pagedResourcesAssembler;
 

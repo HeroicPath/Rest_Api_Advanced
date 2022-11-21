@@ -37,7 +37,7 @@ public class OrderController {
      * @param size size of the page
      * @return The PagedModel representation of the requested Orders
      */
-    @GetMapping(value = "/{id}", params = {"page", "size"})
+    @GetMapping(value = "/user/{id}", params = {"page", "size"})
     public PagedModel<OrderDto> getUserOrders(@PathVariable Long id,
                                               @RequestParam int page,
                                               @RequestParam int size,

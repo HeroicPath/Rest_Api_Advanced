@@ -53,9 +53,7 @@ public class TagServiceImpl implements TagService {
         
         Tag tag = new Tag();
         tag.setName(name);
-        tagRepository.save(tag);
-
-        return tagRepository.findFirstByName(tagDto.getName()).get();
+        return tagRepository.save(tag);
     }
 
     @Override
